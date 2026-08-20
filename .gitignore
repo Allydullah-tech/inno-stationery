@@ -1,0 +1,26 @@
+# ---- Secrets & environment-specific config ----
+# Never commit real DB credentials. Keep database.php locally only;
+# commit database.example.php instead so collaborators know what to fill in.
+backend/config/database.php
+
+# ---- Install lock (environment-specific, regenerated per deployment) ----
+backend/install.lock
+
+# ---- User-uploaded content (product images, print documents) ----
+# Keep the folders in git via .gitkeep, but never the actual uploaded files.
+backend/uploads/products/*
+!backend/uploads/products/.gitkeep
+!backend/uploads/products/.htaccess
+backend/uploads/print_docs/*
+!backend/uploads/print_docs/.gitkeep
+!backend/uploads/print_docs/.htaccess
+
+# ---- OS / editor files ----
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# ---- Logs ----
+*.log

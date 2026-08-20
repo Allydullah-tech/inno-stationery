@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Orders — INNO's Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/style.css?v=7">
+<link rel="stylesheet" href="../css/admin.css?v=7">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div class="admin-topbar" id="adminTopbar"></div>
+    <div class="admin-content">
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>All orders</h3>
+          <div class="filter-row">
+            <select id="statusFilter">
+              <option value="">All statuses</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="processing">Processing</option>
+              <option value="ready">Ready</option>
+              <option value="out_for_delivery">Out for delivery</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <select id="paymentFilter">
+              <option value="">All payments</option>
+              <option value="not_required">Not required</option>
+              <option value="pending_verification">Awaiting verification</option>
+              <option value="verified">Verified</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div class="panel-body table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Code</th><th>Customer</th><th>Fulfillment</th><th>Total</th><th>Payment</th><th>Status</th><th>Placed</th><th></th></tr></thead>
+            <tbody id="ordersTbody"><tr><td colspan="8" style="text-align:center;padding:30px;">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Order detail modal -->
+<div class="modal-backdrop" id="orderModalBackdrop">
+  <div class="modal" style="max-width:540px;">
+    <div class="modal-head">
+      <h3>Order Details</h3>
+      <button class="modal-close" id="orderModalClose">&times;</button>
+    </div>
+    <div class="modal-body" id="orderModalBody"></div>
+  </div>
+</div>
+
+<script src="admin-core.js?v=7"></script>
+<script src="admin-orders.js?v=7"></script>
+</body>
+</html>

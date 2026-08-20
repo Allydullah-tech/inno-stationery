@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Print a Document — INNO's STATIONERY</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E85D2C">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css?v=7">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="section" style="padding-top:44px;">
+    <div class="container" style="max-width:760px;">
+
+      <div class="section-head" style="margin-bottom:26px;">
+        <div>
+          <h2>Print a document</h2>
+          <p>Upload your file and tell us how you'd like it printed. We'll confirm the exact cost before it's finalised.</p>
+        </div>
+      </div>
+
+      <div id="printFormWrap" class="form-card">
+        <form id="printForm">
+          <div class="field">
+            <label>Document *</label>
+            <div class="file-drop" id="fileDrop">
+              <div class="fi" style="color:var(--emerald);"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg></div>
+              <p style="margin:0;" id="fileDropLabel">Click to choose a file, or drag it here<br><small style="color:var(--ink-soft);">PDF, Word, PowerPoint, Excel or images — up to 20MB</small></p>
+              <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png" style="display:none;">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pCopies">Number of copies *</label>
+              <input type="number" id="pCopies" min="1" value="1" required>
+            </div>
+            <div class="field">
+              <label for="pPaperSize">Paper size *</label>
+              <select id="pPaperSize">
+                <option value="A4">A4</option>
+                <option value="A3">A3</option>
+                <option value="Letter">Letter</option>
+                <option value="Legal">Legal</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Colour *</label>
+              <div class="radio-cards">
+                <label class="radio-card"><input type="radio" name="colorMode" value="black_white" checked><span>Black &amp; White</span></label>
+                <label class="radio-card"><input type="radio" name="colorMode" value="color"><span>Colour</span></label>
+              </div>
+            </div>
+            <div class="field">
+              <label for="pBinding">Binding</label>
+              <select id="pBinding">
+                <option value="none">None</option>
+                <option value="stapled">Stapled</option>
+                <option value="spiral">Spiral bound</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label><input type="checkbox" id="pDoubleSided" style="width:auto;"> Print double-sided</label>
+          </div>
+
+          <div class="field">
+            <label for="pInstructions">Special instructions (optional)</label>
+            <textarea id="pInstructions" placeholder="e.g. print pages 1-5 only, staple top-left…"></textarea>
+          </div>
+
+          <hr style="border:none;border-top:1px solid var(--line);margin:24px 0;">
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pName">Full name *</label>
+              <input type="text" id="pName" required>
+            </div>
+            <div class="field">
+              <label for="pPhone">Phone number *</label>
+              <input type="tel" id="pPhone" required placeholder="07XXXXXXXX">
+            </div>
+          </div>
+          <div class="field">
+            <label for="pEmail">Email (optional)</label>
+            <input type="email" id="pEmail">
+          </div>
+
+          <div class="field">
+            <label>How would you like to receive it? *</label>
+            <div class="radio-cards">
+              <label class="radio-card"><input type="radio" name="pFulfillment" value="pickup" checked><span><strong>Pickup</strong><br><small style="color:var(--ink-soft);">Collect from our shop</small></span></label>
+              <label class="radio-card"><input type="radio" name="pFulfillment" value="delivery"><span><strong>Delivery</strong><br><small style="color:var(--ink-soft);">Pay once cost is confirmed</small></span></label>
+            </div>
+          </div>
+          <div class="field" id="pAddressField" style="display:none;">
+            <label for="pAddress">Delivery address *</label>
+            <textarea id="pAddress"></textarea>
+          </div>
+
+          <div id="printAlert"></div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submitPrintBtn">Submit Print Request</button>
+        </form>
+      </div>
+
+      <div id="printSuccessView" style="display:none;max-width:520px;margin:0 auto;"></div>
+
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/core.js?v=7"></script>
+<script src="js/print.js?v=7"></script>
+</body>
+</html>

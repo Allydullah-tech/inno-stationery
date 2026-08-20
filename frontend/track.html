@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Track Your Order — INNO's Stationery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E85D2C">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css?v=7">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="section" style="padding-top:44px;">
+    <div class="container" style="max-width:640px;">
+      <div class="section-head" style="display:block;margin-bottom:22px;">
+        <h2>Track your order or print request</h2>
+        <p>Use whichever you have on hand — your tracking code, or just your phone number.</p>
+      </div>
+
+      <div class="form-card">
+        <div class="field">
+          <label>Track using</label>
+          <div class="radio-cards">
+            <label class="radio-card">
+              <input type="radio" name="trackMode" value="code" checked>
+              <span><strong>Tracking code</strong><br><small style="color:var(--ink-soft);">e.g. ORD-7F3K2Q</small></span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="trackMode" value="phone">
+              <span><strong>Phone number</strong><br><small style="color:var(--ink-soft);">Shows all your orders</small></span>
+            </label>
+          </div>
+        </div>
+
+        <form id="trackForm">
+          <div class="field" id="codeField">
+            <label for="trackCode">Tracking code *</label>
+            <input type="text" id="trackCode" placeholder="e.g. ORD-7F3K2Q" style="font-family:var(--font-mono);text-transform:uppercase;">
+          </div>
+          <div class="field" id="phoneField" style="display:none;">
+            <label for="trackPhone">Phone number used when ordering *</label>
+            <input type="tel" id="trackPhone" placeholder="07XXXXXXXX">
+          </div>
+          <div id="trackAlert"></div>
+          <button type="submit" class="btn btn-primary btn-block" id="trackBtn">Track</button>
+        </form>
+      </div>
+
+      <div id="trackResult" style="margin-top:26px;display:flex;flex-direction:column;gap:18px;"></div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/core.js?v=7"></script>
+<script src="js/track.js?v=7"></script>
+</body>
+</html>

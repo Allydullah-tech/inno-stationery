@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard — INNO's Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/style.css?v=7">
+<link rel="stylesheet" href="../css/admin.css?v=7">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div class="admin-topbar" id="adminTopbar"></div>
+    <div class="admin-content">
+
+      <div class="stat-grid" id="statGrid">
+        <div class="skeleton" style="height:96px;"></div>
+        <div class="skeleton" style="height:96px;"></div>
+        <div class="skeleton" style="height:96px;"></div>
+        <div class="skeleton" style="height:96px;"></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;">
+        <div class="panel">
+          <div class="panel-head"><h3>Recent orders</h3><a href="orders.html" class="btn btn-ghost btn-sm">View all →</a></div>
+          <div class="panel-body table-wrap">
+            <table class="data-table" id="recentOrdersTable">
+              <thead><tr><th>Code</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Recent print requests</h3><a href="print-requests.html" class="btn btn-ghost btn-sm">View all →</a></div>
+          <div class="panel-body table-wrap">
+            <table class="data-table" id="recentPrintsTable">
+              <thead><tr><th>Code</th><th>Customer</th><th>Status</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="admin-core.js?v=7"></script>
+<script>
+(async () => {
+    const admin = await guardAdminPage();
+    if (!admin) return;
+    renderAdminShell('dashboard', 'Dashboard', admin);
+
+    const res = await adminApi('/dashboard.php');
+    if (!res.success) { adminToast(res.message || 'Could not load stats.', 'error'); return; }
+    const s = res.stats;
+
+    document.getElementById('statGrid').innerHTML = `
+      <div class="stat-card">
+        <div class="stat-label">Total Products</div>
+        <div class="stat-value">${s.total_products}</div>
+        <div class="stat-sub">${s.active_products} active</div>
+      </div>
+      <div class="stat-card ${s.low_stock > 0 ? 'warn' : ''}">
+        <div class="stat-label">Low Stock</div>
+        <div class="stat-value">${s.low_stock}</div>
+        <div class="stat-sub">5 or fewer left</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Orders</div>
+        <div class="stat-value">${s.total_orders}</div>
+        <div class="stat-sub">${s.pending_orders} pending</div>
+      </div>
+      <div class="stat-card ${s.orders_awaiting_payment_verification > 0 ? 'danger' : ''}">
+        <div class="stat-label">Payments to Verify</div>
+        <div class="stat-value">${s.orders_awaiting_payment_verification + s.print_awaiting_payment_verification}</div>
+        <div class="stat-sub">Orders + print requests</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Print Requests</div>
+        <div class="stat-value">${s.total_print_requests}</div>
+        <div class="stat-sub">${s.pending_print_requests} awaiting review</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Revenue (Completed)</div>
+        <div class="stat-value" style="font-size:24px;">${adminFormatMoney(s.revenue_completed)}</div>
+        <div class="stat-sub">Completed orders</div>
+      </div>
+    `;
+
+    document.querySelector('#recentOrdersTable tbody').innerHTML = s.recent_orders.length
+      ? s.recent_orders.map(o => `<tr><td class="mono">${o.order_code}</td><td>${adminEscapeHtml(o.customer_name)}</td><td>${adminFormatMoney(o.total_amount)}</td><td><span class="status-pill status-${o.status}">${STATUS_LABEL_MAP[o.status]||o.status}</span></td></tr>`).join('')
+      : `<tr><td colspan="4" style="text-align:center;color:var(--ink-soft);padding:26px;">No orders yet.</td></tr>`;
+
+    document.querySelector('#recentPrintsTable tbody').innerHTML = s.recent_print_requests.length
+      ? s.recent_print_requests.map(p => `<tr><td class="mono">${p.request_code}</td><td>${adminEscapeHtml(p.customer_name)}</td><td><span class="status-pill status-${p.status}">${STATUS_LABEL_MAP[p.status]||p.status}</span></td></tr>`).join('')
+      : `<tr><td colspan="3" style="text-align:center;color:var(--ink-soft);padding:26px;">No print requests yet.</td></tr>`;
+})();
+</script>
+</body>
+</html>

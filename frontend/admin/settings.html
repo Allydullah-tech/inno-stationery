@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Settings — INNO's Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/style.css?v=7">
+<link rel="stylesheet" href="../css/admin.css?v=7">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div class="admin-topbar" id="adminTopbar"></div>
+    <div class="admin-content">
+
+      <div class="panel">
+        <div class="panel-head"><h3>Payment details</h3></div>
+        <div class="panel-body pad">
+          <p class="hint" style="margin-bottom:16px;">These details are shown to customers when they choose delivery and need to pay in advance.</p>
+          <form id="settingsForm" style="max-width:480px;">
+            <div class="field">
+              <label for="s_payment_name">Account holder name</label>
+              <input type="text" id="s_payment_name">
+            </div>
+            <div class="field">
+              <label for="s_payment_phone">Payment phone number</label>
+              <input type="text" id="s_payment_phone">
+            </div>
+            <div class="field">
+              <label for="s_payment_method_label">Payment method label</label>
+              <input type="text" id="s_payment_method_label">
+            </div>
+            <div class="field">
+              <label for="s_delivery_fee">Delivery fee (TSh)</label>
+              <input type="number" id="s_delivery_fee" min="0">
+            </div>
+            <div class="field">
+              <label for="s_site_tagline">Site tagline</label>
+              <input type="text" id="s_site_tagline">
+            </div>
+            <div id="settingsAlert"></div>
+            <button type="submit" class="btn btn-primary" id="settingsSaveBtn">Save Settings</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="admin-core.js?v=7"></script>
+<script>
+(async () => {
+    const admin = await guardAdminPage();
+    if (!admin) return;
+    renderAdminShell('settings', 'Settings', admin);
+
+    const res = await adminApi('/settings.php');
+    if (res.success) {
+        const s = res.settings;
+        document.getElementById('s_payment_name').value = s.payment_name || '';
+        document.getElementById('s_payment_phone').value = s.payment_phone || '';
+        document.getElementById('s_payment_method_label').value = s.payment_method_label || '';
+        document.getElementById('s_delivery_fee').value = s.delivery_fee || '';
+        document.getElementById('s_site_tagline').value = s.site_tagline || '';
+    }
+
+    document.getElementById('settingsForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const alertBox = document.getElementById('settingsAlert');
+        alertBox.innerHTML = '';
+        const btn = document.getElementById('settingsSaveBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Saving…';
+
+        const payload = {
+            payment_name: document.getElementById('s_payment_name').value.trim(),
+            payment_phone: document.getElementById('s_payment_phone').value.trim(),
+            payment_method_label: document.getElementById('s_payment_method_label').value.trim(),
+            delivery_fee: document.getElementById('s_delivery_fee').value,
+            site_tagline: document.getElementById('s_site_tagline').value.trim(),
+        };
+
+        const res = await adminApi('/settings.php', { method: 'PUT', body: payload });
+        btn.disabled = false;
+        btn.textContent = 'Save Settings';
+
+        if (!res.success) {
+            alertBox.innerHTML = `<div class="alert alert-error">${adminEscapeHtml(res.message)}</div>`;
+            return;
+        }
+        adminToast('Settings saved.', 'success');
+    });
+})();
+</script>
+</body>
+</html>

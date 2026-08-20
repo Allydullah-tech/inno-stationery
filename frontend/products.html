@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shop All Products — INNO's STATIONERY</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E85D2C">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css?v=7">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="section" style="padding-bottom:0;">
+    <div class="container">
+      <div class="section-head">
+        <h2>Shop all products</h2>
+        <p>Filter by category or search for exactly what you need.</p>
+      </div>
+
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:26px;">
+        <input type="search" id="searchInput" placeholder="Search products…" style="flex:1;min-width:220px;padding:12px 16px;border:1.5px solid var(--line-strong);border-radius:999px;font-size:14.5px;">
+        <button class="btn btn-primary" id="searchBtn">Search</button>
+      </div>
+
+      <div class="cat-row" id="categoryRow"></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:8px;">
+    <div class="container">
+      <div class="product-grid" id="productGrid">
+        <div class="skeleton" style="height:280px;"></div>
+        <div class="skeleton" style="height:280px;"></div>
+        <div class="skeleton" style="height:280px;"></div>
+        <div class="skeleton" style="height:280px;"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/core.js?v=7"></script>
+<script src="js/main.js?v=7"></script>
+<script src="js/products.js?v=7"></script>
+</body>
+</html>

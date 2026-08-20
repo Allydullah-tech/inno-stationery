@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login — INNO's STATIONERY</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/style.css?v=7">
+<link rel="stylesheet" href="../css/admin.css?v=7">
+</head>
+<body class="admin-body">
+
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="mark">I</div>
+      <h2 style="font-size:19px;margin-bottom:2px;">Admin Login</h2>
+      <p style="font-size:13.5px;margin:0;">INNO's Stationery management panel</p>
+    </div>
+
+    <div id="loginAlert"></div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="username">Username or email</label>
+        <input type="text" id="username" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Log In</button>
+    </form>
+
+    <p style="text-align:center;margin-top:18px;font-size:13.5px;">
+      <a href="forgot-password.html" style="color:var(--navy);font-weight:600;">Forgot your password?</a>
+    </p>
+    <p style="text-align:center;margin-top:6px;font-size:13px;">
+      <a href="../index.html" style="color:var(--ink-soft);">← Back to shop</a>
+    </p>
+  </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const alertBox = document.getElementById('loginAlert');
+    alertBox.innerHTML = '';
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Logging in…';
+
+    const res = await fetch('../../backend/api/admin_auth.php?action=login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            username: document.getElementById('username').value.trim(),
+            password: document.getElementById('password').value,
+        }),
+    });
+    const data = await res.json();
+
+    btn.disabled = false;
+    btn.textContent = 'Log In';
+
+    if (!data.success) {
+        alertBox.innerHTML = `<div class="alert alert-error">${data.message}</div>`;
+        return;
+    }
+    window.location.href = 'dashboard.html';
+});
+
+// If already logged in, skip straight to dashboard
+(async () => {
+    try {
+        const res = await fetch('../../backend/api/admin_auth.php?action=session', { credentials: 'include' });
+        const data = await res.json();
+        if (data.authenticated) window.location.href = 'dashboard.html';
+    } catch (e) {}
+})();
+</script>
+</body>
+</html>

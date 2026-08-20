@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Print Requests — INNO's Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/style.css?v=7">
+<link rel="stylesheet" href="../css/admin.css?v=7">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <div id="adminSidebarWrap"></div>
+  <div class="admin-main">
+    <div class="admin-topbar" id="adminTopbar"></div>
+    <div class="admin-content">
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>All print requests</h3>
+          <div class="filter-row">
+            <select id="printStatusFilter">
+              <option value="">All statuses</option>
+              <option value="received">Received</option>
+              <option value="printing">Printing</option>
+              <option value="ready">Ready</option>
+              <option value="out_for_delivery">Out for delivery</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="panel-body table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Code</th><th>Customer</th><th>File</th><th>Copies</th><th>Cost</th><th>Payment</th><th>Status</th><th></th></tr></thead>
+            <tbody id="printsTbody"><tr><td colspan="8" style="text-align:center;padding:30px;">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Detail modal -->
+<div class="modal-backdrop" id="printModalBackdrop">
+  <div class="modal" style="max-width:540px;">
+    <div class="modal-head">
+      <h3>Print Request Details</h3>
+      <button class="modal-close" id="printModalClose">&times;</button>
+    </div>
+    <div class="modal-body" id="printModalBody"></div>
+  </div>
+</div>
+
+<script src="admin-core.js?v=7"></script>
+<script src="admin-print-requests.js?v=7"></script>
+</body>
+</html>
